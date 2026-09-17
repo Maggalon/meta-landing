@@ -1,0 +1,112 @@
+name: Landing CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: landing-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+
+      - name: Validate Compose
+        run: docker compose -f compose.production.yaml config --quiet
+
+      - name: Build production image
+        run: |
+          docker build \
+            --label io.meta-landing.component=app \
+            --label "org.opencontainers.image.revision=$GITHUB_SHA" \
+            --tag meta-landing:production \
+            .
+
+      - name: Deploy to VPS
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        shell: bash
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PORT: ${{ vars.VPS_SSH_PORT || '22' }}
+          SSH_PRIVATE_KEY: ${{ secrets.VPS_SSH_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+
+          [[ "$VPS_HOST" =~ ^[a-zA-Z0-9][a-zA-Z0-9.-]*$ ]]
+          [[ "$VPS_USER" =~ ^[a-z_][a-z0-9_-]*$ ]]
+          [[ "$VPS_PORT" =~ ^[0-9]+$ ]]
+          test -n "$SSH_PRIVATE_KEY"
+          test -n "$SSH_KNOWN_HOSTS"
+
+          umask 077
+          ssh_dir=$(mktemp -d "$RUNNER_TEMP/landing-ssh.XXXXXX")
+          trap 'rm -rf -- "$ssh_dir"' EXIT
+
+          printf '%s\n' "$SSH_PRIVATE_KEY" > "$ssh_dir/key"
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > "$ssh_dir/known_hosts"
+
+          ssh_args=(
+            -i "$ssh_dir/key"
+            -p "$VPS_PORT"
+            -o BatchMode=yes
+            -o IdentitiesOnly=yes
+            -o StrictHostKeyChecking=yes
+            -o "UserKnownHostsFile=$ssh_dir/known_hosts"
+            -o ConnectTimeout=15
+            -o ServerAliveInterval=15
+            -o ServerAliveCountMax=4
+          )
+
+          target="$VPS_USER@$VPS_HOST"
+
+          runner_platform=$(docker version --format '{{.Server.Os}}/{{.Server.Arch}}')
+          server_platform=$(ssh "${ssh_args[@]}" "$target" \
+            "docker version --format '{{.Server.Os}}/{{.Server.Arch}}'")
+
+          if [[ "$runner_platform" != "$server_platform" ]]; then
+            echo "Docker architecture mismatch: runner=$runner_platform, VPS=$server_platform"
+            exit 1
+          fi
+
+          ssh "${ssh_args[@]}" "$target" 'bash -se' <<'REMOTE'
+          docker network inspect proxy >/dev/null
+          test -d /home/maggalon/meta-landing
+          test -w /home/maggalon/meta-landing
+          REMOTE
+
+          docker image save meta-landing:production \
+            | gzip -1 \
+            | ssh "${ssh_args[@]}" "$target" 'docker image load'
+
+          ssh "${ssh_args[@]}" "$target" \
+            'cat > /home/maggalon/meta-landing/compose.production.yaml.incoming' \
+            < compose.production.yaml
+
+          ssh "${ssh_args[@]}" "$target" 'bash -se' <<'REMOTE'
+          cd /home/maggalon/meta-landing
+
+          docker compose -f compose.production.yaml.incoming config --quiet
+          mv compose.production.yaml.incoming compose.production.yaml
+
+          docker compose -f compose.production.yaml up \
+            -d --no-build --wait --wait-timeout 180
+
+          docker image prune -f \
+            --filter label=io.meta-landing.component=app
+          REMOTE

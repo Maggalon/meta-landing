@@ -1,0 +1,43 @@
+name: meta-landing
+
+services:
+  landing:
+    image: meta-landing:production
+    pull_policy: never
+    restart: unless-stopped
+    init: true
+
+    environment:
+      NODE_ENV: production
+      HOSTNAME: 0.0.0.0
+      PORT: "3000"
+
+    expose:
+      - "3000"
+
+    networks:
+      proxy:
+        aliases:
+          - meta-landing
+
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:3000/', { signal: AbortSignal.timeout(5000) }).then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"
+      interval: 15s
+      timeout: 6s
+      retries: 5
+      start_period: 30s
+
+    logging:
+      driver: local
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  proxy:
+    external: true
+    name: proxy
