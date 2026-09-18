@@ -1,9 +1,23 @@
 import type { Metadata } from "next";
+import "@fontsource-variable/golos-text";
 import "./globals.css";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Meta Edu",
-  description: "Meta Edu",
+  title: site.title,
+  description: site.description,
+  openGraph: {
+    title: site.title,
+    description: site.description,
+    locale: "ru_RU",
+    type: "website",
+    siteName: site.name,
+  },
+  twitter: {
+    card: "summary",
+    title: site.title,
+    description: site.description,
+  },
 };
 
 export default function RootLayout({
@@ -12,11 +26,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="min-h-screen bg-white text-gray-900 antialiased">
-        {children}
-      </body>
+    <html lang="ru">
+      <body>{children}</body>
     </html>
   );
 }
-

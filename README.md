@@ -1,34 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# МЕТА
 
-## Getting Started
+Информационный лендинг для старшеклассников и родителей: профориентация, образовательный маршрут и подготовка к экзаменам. Структура и тексты основаны на `META_landing_structure_and_copy.docx`; цены подтверждены владельцем проекта.
 
-First, run the development server:
+## Стек и запуск
+
+Сохранены Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4 и standalone-сборка. Дополнительно используются Phosphor для иконок и локальный шрифт Golos Text с кириллицей. Внешних запросов к сервису шрифтов нет.
 
 ```bash
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Проверки и production-сборка:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run lint
+npx tsc --noEmit
+npm run build
+```
 
-## Learn More
+Если локальная Windows-среда блокирует дочерние процессы Turbopack, для предпросмотра можно использовать `npm run dev -- --webpack`, для сборки `npm run build -- --webpack`. Стандартные команды CI/CD не изменены.
 
-To learn more about Next.js, take a look at the following resources:
+## Содержание
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `app/page.tsx`: десять разделов, учебные образцы, состав услуг и подтверждённые цены.
+- `lib/site.ts`: контакты, сведения об авторе, навигация, темы обращения и FAQ.
+- `app/globals.css`: адаптивная светлая тема, состояния фокуса, поддержка reduced motion.
+- `components/`: мобильное меню, выбор задачи/роли, форма и ссылки на документы.
+- `public/images/`: локальные учебные иллюстрации. Происхождение описано в `docs/ASSETS.md`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Страница преимущественно серверная; клиентский JavaScript используется для меню и формы. FAQ и подробности тарифа работают через нативный `details`. Вход в кабинет скрыт до подтверждения готовности сервиса, как предусмотрено исходным документом.
 
-## Deploy on Vercel
+## Обращения
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Без дополнительных настроек форма **подготавливает сообщение** для `@maggalon`. Посетитель проверяет его, открывает Telegram и отправляет самостоятельно. Текст не отправляется на сервер сайта и не сохраняется в localStorage. Это не автоматическая доставка заявки: интерфейс прямо сообщает, что сообщение ещё не отправлено. Телефон и прямая ссылка на Telegram также доступны.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Для автоматической доставки скопируйте `.env.example` в `.env.local` при локальной разработке. На VPS задайте значения в `.env` рядом с `compose.production.yaml`. Переменные передаются контейнеру при запуске, повторная сборка образа для их изменения не требуется.
+
+| Переменная              | Назначение                                                          |
+| ----------------------- | ------------------------------------------------------------------- |
+| `CONTACT_WEBHOOK_URL`   | HTTPS-обработчик заявок (CRM, собственный сервер или автоматизация) |
+| `CONTACT_WEBHOOK_TOKEN` | Необязательный Bearer-токен, доступен только серверу                |
+| `CONTACT_PRIVACY_URL`   | Ссылка на утверждённую политику обработки данных                    |
+| `CONTACT_CONSENT_URL`   | Ссылка на утверждённый текст согласия                               |
+| `CONTACT_CONSENT_TEXT`  | Утверждённая подпись чекбокса согласия                              |
+| `CONTACT_TERMS_URL`     | Необязательная ссылка на условия услуг                              |
+| `CONTACT_PROVIDER_URL`  | Необязательная ссылка на данные исполнителя                         |
+
+Без webhook, политики и текста согласия сохраняется режим подготовки сообщения в Telegram. Ссылки на документы принимают HTTPS URL или локальный путь, начинающийся с `/`. Фиктивные юридические документы не создаются.
+
+### Контракт webhook
+
+`POST /api/contact` проверяет источник запроса, тип и размер тела (до 16 КБ), обязательные поля и согласие. На webhook отправляется JSON:
+
+```json
+{
+  "name": "Имя",
+  "role": "student",
+  "contact": "@username",
+  "task": "direction",
+  "grade": "10",
+  "comment": "Вопрос",
+  "source": { "utm_source": "video" },
+  "requestId": "UUID v4",
+  "consent": {
+    "accepted": true,
+    "text": "Утверждённый текст",
+    "url": "/consent",
+    "privacyUrl": "/privacy",
+    "at": "ISO timestamp"
+  }
+}
+```
+
+Роли: `student`, `parent`. Темы: `direction`, `route`, `exams`, `other` или пустая строка. Класс и комментарий необязательны. Передаются только UTM-метки `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`; сторонняя аналитика не подключена.
+
+Успех отображается только после ответа webhook `2xx`. Получатель должен возвращать `2xx` только после надёжного принятия заявки и обрабатывать `Idempotency-Key` (тот же UUID), чтобы сетевые повторы не создавали дубликаты. Тайм-аут доставки: 10 секунд. При ошибке поля сохраняются, предлагается повторить запрос или написать напрямую.
+
+Есть honeypot и ограничение 5 попыток за 10 минут на IP в памяти процесса. Reverse proxy должен перезаписывать `X-Forwarded-For`, сохранять `Host` и ограничивать поток запросов. Для нескольких реплик нужен общий лимит на proxy/получателе. Контактные данные не логируются, локальной базы заявок нет.
+
+## Деплой
+
+Сохранены Dockerfile на Node.js 24, standalone-артефакт, healthcheck и существующий GitHub Actions → VPS процесс. В Compose добавлены только необязательные переменные формы. Секреты и `.env` не входят в образ и git. Публикация выполняется существующим workflow при изменениях в `main`.
+
+Перед включением автоматической формы нужны действующие документы и получатель webhook. Биография Георгия пока содержит согласованную заглушку; фото и перечень доступных предметов добавляются после уточнения. Суммы тарифов уже опубликованы в интерфейсе.
