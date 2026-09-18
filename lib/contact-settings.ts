@@ -9,6 +9,11 @@ function publicUrl(value: string | undefined) {
 }
 
 export function contactSettings() {
+  const provider = process.env.CONTACT_WEBHOOK_PROVIDER || "webhook";
+  const deliveryReady = provider === "webhook" || (
+    provider === "google-sheets" &&
+    (process.env.CONTACT_WEBHOOK_TOKEN?.length ?? 0) >= 32
+  );
   const privacyUrl = publicUrl(process.env.CONTACT_PRIVACY_URL);
   const consentUrl = publicUrl(process.env.CONTACT_CONSENT_URL);
   const consentText = process.env.CONTACT_CONSENT_TEXT?.trim() ?? "";
@@ -16,6 +21,7 @@ export function contactSettings() {
   const providerUrl = publicUrl(process.env.CONTACT_PROVIDER_URL);
   return {
     enabled: Boolean(
+      deliveryReady &&
       process.env.CONTACT_WEBHOOK_URL &&
       privacyUrl &&
       consentUrl &&

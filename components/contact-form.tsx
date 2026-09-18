@@ -125,7 +125,7 @@ export function ContactForm() {
           requestId: requestId.current,
           source,
         }),
-        signal: AbortSignal.timeout(15_000),
+        signal: AbortSignal.timeout(25_000),
       });
       if (!response.ok) throw new Error("delivery");
       setStatus("success");
@@ -338,7 +338,7 @@ export function ContactForm() {
           <ArrowUpRightIcon size={19} aria-hidden="true" />
         </button>
       )}
-      <p className="required-note">* Обязательные поля</p>
+      {/* <p className="required-note">* Обязательные поля</p> */}
     </form>
   );
 }

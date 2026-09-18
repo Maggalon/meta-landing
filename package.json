@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:contact": "node --experimental-strip-types --test tests/contact-delivery.test.mjs tests/google-sheets.test.mjs"
   },
   "dependencies": {
     "@fontsource-variable/golos-text": "^5.3.0",

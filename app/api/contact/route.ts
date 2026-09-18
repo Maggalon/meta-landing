@@ -1,5 +1,6 @@
 import { contactSettings } from "@/lib/contact-settings";
 import { tasks } from "@/lib/site";
+import { deliverContact } from "@/lib/contact-delivery";
 
 export const runtime = "nodejs";
 
@@ -114,26 +115,8 @@ export async function POST(request: Request) {
     }
   }
   try {
-    const url = new URL(process.env.CONTACT_WEBHOOK_URL!);
-    if (
-      url.protocol !== "https:" &&
-      !(
-        process.env.NODE_ENV !== "production" &&
-        url.protocol === "http:" &&
-        ["localhost", "127.0.0.1"].includes(url.hostname)
-      )
-    )
-      return failure("Отправка временно недоступна.", 503);
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Idempotency-Key": requestId,
-        ...(process.env.CONTACT_WEBHOOK_TOKEN
-          ? { Authorization: `Bearer ${process.env.CONTACT_WEBHOOK_TOKEN}` }
-          : {}),
-      },
-      body: JSON.stringify({
+    await deliverContact(
+      {
         name,
         role,
         contact,
@@ -149,11 +132,13 @@ export async function POST(request: Request) {
           privacyUrl: settings.privacyUrl,
           at: new Date().toISOString(),
         },
-      }),
-      signal: AbortSignal.timeout(10_000),
-      redirect: "error",
-    });
-    if (!response.ok) return failure("Не удалось отправить заявку.", 502);
+      },
+      {
+        provider: process.env.CONTACT_WEBHOOK_PROVIDER || "webhook",
+        url: process.env.CONTACT_WEBHOOK_URL!,
+        token: process.env.CONTACT_WEBHOOK_TOKEN || "",
+      },
+    );
     delivered.set(requestId, now + 86_400_000);
     if (delivered.size > 5000) delivered.delete(delivered.keys().next().value!);
     return Response.json(

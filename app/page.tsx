@@ -4,7 +4,6 @@ import {
   ArrowRightIcon,
   ArrowUpRightIcon,
   BookOpenTextIcon,
-  CalendarBlankIcon,
   CheckIcon,
   CompassIcon,
   FlagIcon,
@@ -23,6 +22,8 @@ import { ContactForm } from "@/components/contact-form";
 import { Header } from "@/components/header";
 import { questions, site } from "@/lib/site";
 import { LegalLinks } from "@/components/legal-links";
+import { PathPriceCard } from "@/components/path-price-card";
+import { ExamPriceCard } from "@/components/exam-price-card";
 
 const situations = [
   {
@@ -80,9 +81,9 @@ export default function Home() {
                 <ArrowDownIcon size={17} aria-hidden="true" />
               </a>
             </div>
-            <p className="hero-note">
+            {/* <p className="hero-note">
               Онлайн, с практическими заданиями и обратной связью.
-            </p>
+            </p> */}
           </div>
           <figure className="hero-figure">
             <div className="hero-image">
@@ -95,10 +96,10 @@ export default function Home() {
                 preload
               />
             </div>
-            <figcaption>
+            {/* <figcaption>
               <span>Большой путь начинается с понятного шага.</span>
               <span>Учебная иллюстрация</span>
-            </figcaption>
+            </figcaption> */}
           </figure>
         </section>
         <section
@@ -176,50 +177,90 @@ export default function Home() {
                   <CheckIcon size={19} aria-hidden="true" />
                   <p>
                     <strong>Результат:</strong> планы Одиссеи, выбранный
-                    сценарий и план ближайших проб.
+                    сценарий и план ближайших тестов.
                   </p>
                 </div>
                 <ActionLink task="direction" className="text-link">
                   Обсудить профориентацию
                 </ActionLink>
+                <div className="method-note">
+                  <LightbulbIcon size={27} weight="light" aria-hidden="true" />
+                  <p>
+                    В основе профориентационной части МЕТА лежит{" "}
+                    <strong>Life Design</strong>, подход к проектированию жизни
+                    Билла Бернетта и Дэйва Эванса. Несколько сценариев и небольшие
+                    практические тесты помогают понять, куда идти дальше.
+                  </p>
+                </div>
               </div>
               <div className="sample sample-scenarios">
                 <div className="sample-heading">
-                  <span>Мои возможные сценарии</span>
+                  <span>Пример</span>
                   <CompassIcon size={22} weight="light" aria-hidden="true" />
                 </div>
                 <p className="sample-subtitle">
-                  Не один правильный ответ. Несколько идей для проверки.
+                  Ане 16 лет. Ей нравится информатика, организация школьных
+                  событий и фотография. Родители предлагают IT, но она пока
+                  не уверена. Вот три сценария на ближайшие пять лет.
                 </p>
                 <div className="scenario-option">
-                  <span>А</span>
+                  <span>1</span>
                   <div>
-                    <strong>Создавать визуальные истории</strong>
-                    <p>Попробовать себя в дизайне</p>
+                    <strong>Создаю приложения и учусь жить самостоятельно</strong>
+                    <p>
+                      Текущая идея: поступить на IT-направление, сделать первое
+                      приложение с друзьями и попробовать стажировку.
+                    </p>
+                    <div className="sample-next">
+                      <span>Тест</span>
+                      <p>
+                        Сделать приложение для себя или класса.
+                        Интересно ли писать код, когда возникают трудности?
+                      </p>
+                    </div>
                   </div>
-                  <ArrowUpRightIcon size={18} aria-hidden="true" />
+                  {/* <ArrowUpRightIcon size={18} aria-hidden="true" /> */}
                 </div>
                 <div className="scenario-option">
-                  <span>Б</span>
+                  <span>2</span>
                   <div>
-                    <strong>Разбираться, как всё устроено</strong>
-                    <p>Исследовать технологии</p>
+                    <strong>Собираю людей и устраиваю события</strong>
+                    <p>
+                      Если путь в IT недоступен: от школьного фестиваля
+                      к городским проектам и работе в культурном центре.
+                    </p>
+                    <div className="sample-next">
+                      <span>Тест</span>
+                      <p>
+                        С двумя одноклассниками организовать школьный вечер —
+                        от идеи до уборки. Нравится ли договариваться с людьми
+                        и решать неожиданные задачи?
+                      </p>
+                    </div>
                   </div>
                 </div>
                 <div className="scenario-option">
-                  <span>В</span>
+                  <span>3</span>
                   <div>
-                    <strong>Помогать людям учиться</strong>
-                    <p>Узнать больше о преподавании</p>
+                    <strong>
+                      Путешествую и рассказываю истории через фотографии
+                    </strong>
+                    <p>
+                      Если деньги и мнение окружающих не имеют значения:
+                      учиться фотографии, снимать жизнь людей, делать
+                      фотопроекты и выставки.
+                    </p>
+                    <div className="sample-next">
+                      <span>Тест</span>
+                      <p>
+                        Снять «Пять историй моего района» и показать героям
+                        и друзьям. Нравится ли сам процесс съёмки
+                        и знакомство с людьми?
+                      </p>
+                    </div>
                   </div>
                 </div>
-                <div className="sample-next">
-                  <span>Ближайшая проба</span>
-                  <p>
-                    Сделать афишу школьного события и собрать обратную связь.
-                  </p>
-                </div>
-                <p className="sample-caption">Учебный пример плана Одиссеи</p>
+                {/* <p className="sample-caption">Учебный пример плана Одиссеи</p> */}
               </div>
             </article>
             <article className="stage" id="route">
@@ -256,53 +297,37 @@ export default function Home() {
               </div>
               <div className="sample sample-route">
                 <div className="sample-heading">
-                  <span>Сравниваем, чтобы выбрать</span>
+                  <span>Пример</span>
                   <MapTrifoldIcon size={22} weight="light" aria-hidden="true" />
                 </div>
-                <div className="comparison-table">
-                  <table>
-                    <caption className="sr-only">
-                      Учебное сравнение двух вымышленных программ
-                    </caption>
-                    <thead>
-                      <tr>
-                        <th scope="col">Что важно</th>
-                        <th scope="col">Программа А</th>
-                        <th scope="col">Программа Б</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row">Фокус</th>
-                        <td>Визуальный дизайн</td>
-                        <td>Цифровые продукты</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Формат</th>
-                        <td>Очно</td>
-                        <td>Смешанный</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Что уточнить</th>
-                        <td>Творческий конкурс</td>
-                        <td>Состав экзаменов</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div className="route-next">
-                  <CalendarBlankIcon size={25} aria-hidden="true" />
-                  <div>
-                    <strong>Следующий шаг</strong>
-                    <p>
-                      Проверить требования на сайте программы и записаться на
-                      день открытых дверей.
-                    </p>
-                  </div>
-                </div>
-                <p className="sample-caption">
-                  Учебный пример. Программы вымышлены.
+                <p className="sample-subtitle">
+                  Допустим, Аня выбрала IT. Так может выглядеть её маршрут.
                 </p>
+                <ol className="route-roadmap" aria-label="Дорожная карта поступления">
+                  <li>
+                    <span className="route-timing">Сейчас</span>
+                    <h4>Выбрать 3–5 программ</h4>
+                    <p>Сравнить содержание, стоимость и условия жизни.</p>
+                  </li>
+                  <li>
+                    <span className="route-timing">Следующий шаг</span>
+                    <h4>Проверить требования</h4>
+                    <p>Уточнить экзамены и сроки на сайтах вузов.</p>
+                  </li>
+                  <li>
+                    <span className="route-timing">До экзаменов</span>
+                    <h4>Подготовиться по плану</h4>
+                    <p>Оценить текущий уровень и распределить учебные задачи.</p>
+                  </li>
+                  <li>
+                    <span className="route-timing">Приёмная кампания</span>
+                    <h4>Подать документы</h4>
+                    <p>Следить за конкурсом и сроками, выбрать программу.</p>
+                  </li>
+                </ol>
+                {/* <p className="sample-caption">
+                  Пример маршрута. Конкретные сроки уточняем для выбранных программ.
+                </p> */}
               </div>
             </article>
             <article className="stage" id="exams">
@@ -337,7 +362,7 @@ export default function Home() {
               </div>
               <div className="sample sample-plan">
                 <div className="sample-heading">
-                  <span>План, с которым можно работать</span>
+                  <span>Пример</span>
                   <BookOpenTextIcon
                     size={22}
                     weight="light"
@@ -345,16 +370,20 @@ export default function Home() {
                   />
                 </div>
                 <p className="sample-subtitle">
-                  От текущего уровня к следующей учебной задаче.
+                  Допустим, для выбранных программ Ане нужна информатика.
+                  После диагностики общий маршрут превращается в учебные задачи.
                 </p>
-                <ol className="study-plan">
+                <ol className="study-plan" aria-label="План подготовки Ани к информатике">
                   <li>
                     <span className="plan-check">
                       <CheckIcon size={16} aria-hidden="true" />
                     </span>
                     <div>
-                      <strong>Разобрать стартовую работу</strong>
-                      <p>Что получается и где нужна помощь</p>
+                      <strong>Диагностика пройдена</strong>
+                      <p>
+                        Логика даётся уверенно, а в задачах на программирование
+                        возникают ошибки.
+                      </p>
                     </div>
                   </li>
                   <li>
@@ -362,8 +391,11 @@ export default function Home() {
                       <CheckIcon size={16} aria-hidden="true" />
                     </span>
                     <div>
-                      <strong>Выбрать приоритетные темы</strong>
-                      <p>Составить последовательность занятий</p>
+                      <strong>Темы выбраны</strong>
+                      <p>
+                        Сначала — циклы и работа со списками. Затем — задачи,
+                        в которых они используются вместе.
+                      </p>
                     </div>
                   </li>
                   <li className="plan-current">
@@ -371,104 +403,29 @@ export default function Home() {
                       <ArrowRightIcon size={16} aria-hidden="true" />
                     </span>
                     <div>
-                      <strong>Отработать задания</strong>
-                      <p>Практика с обратной связью</p>
+                      <strong>Сейчас: практика программирования</strong>
+                      <p>
+                        На занятии разбираем подход, дома решаем похожие задачи.
+                        Ошибки обсуждаем на следующей встрече.
+                      </p>
                     </div>
                   </li>
                   <li>
                     <span className="plan-empty" />
                     <div>
-                      <strong>Проверить и уточнить план</strong>
-                      <p>Сравнить результаты, определить следующий шаг</p>
+                      <strong>Через месяц: проверка прогресса</strong>
+                      <p>
+                        Новая работа покажет, что Аня уже решает самостоятельно
+                        и какие темы нужно повторить.
+                      </p>
                     </div>
                   </li>
                 </ol>
-                <p className="sample-caption">
+                {/* <p className="sample-caption">
                   Учебный пример плана подготовки
-                </p>
+                </p> */}
               </div>
             </article>
-          </div>
-        </section>
-        <section
-          className="example container section"
-          aria-labelledby="example-title"
-        >
-          <div className="section-heading">
-            <p className="eyebrow">Учебный пример</p>
-            <h2 id="example-title">
-              «Мне нравится дизайн.
-              <br className="desktop-break" /> А что делать дальше?»
-            </h2>
-            <p>
-              Необязательно сразу выбирать профессию. Сначала можно попробовать
-              небольшую реальную задачу.
-            </p>
-          </div>
-          <div className="example-layout">
-            <figure className="example-figure">
-              <Image
-                src="/images/design-exercise.webp"
-                alt="Иллюстрация учебной пробы: создание синей афиши вымышленного школьного вечера идей"
-                width={1400}
-                height={1050}
-                sizes="(max-width: 767px) 100vw, 46vw"
-              />
-              <figcaption>
-                Создать афишу, получить обратную связь, доработать идею.
-              </figcaption>
-            </figure>
-            <ol className="example-steps">
-              <li>
-                <span>1</span>
-                <div>
-                  <h3>Уточняем вопрос</h3>
-                  <p>
-                    Интересно создавать изображения, придумывать идеи или решать
-                    задачу по чужому заданию?
-                  </p>
-                </div>
-              </li>
-              <li>
-                <span>2</span>
-                <div>
-                  <h3>Выбираем пробу</h3>
-                  <p>
-                    Сделать афишу вымышленного школьного события для конкретной
-                    аудитории и доработать её после обратной связи.
-                  </p>
-                </div>
-              </li>
-              <li>
-                <span>3</span>
-                <div>
-                  <h3>Обсуждаем опыт</h3>
-                  <p>
-                    Что хотелось продолжать? Где возникли трудности? Что
-                    оказалось неожиданным?
-                  </p>
-                </div>
-              </li>
-              <li>
-                <span>4</span>
-                <div>
-                  <h3>Определяем продолжение</h3>
-                  <p>
-                    Другая задача, разговор со студентом или знакомство с
-                    программой обучения.
-                  </p>
-                </div>
-              </li>
-            </ol>
-          </div>
-          <div className="method-note">
-            <LightbulbIcon size={27} weight="light" aria-hidden="true" />
-            <p>
-              В основе профориентационной части МЕТА лежит{" "}
-              <strong>Life Design</strong>, подход к проектированию жизни Билла
-              Бернетта и Дэйва Эванса. Несколько сценариев и небольшие
-              практические пробы помогают уточнить, что исследовать дальше.
-            </p>
           </div>
         </section>
         <section
@@ -517,10 +474,10 @@ export default function Home() {
                 </div>
               ))}
             </div>
-            <p className="process-note">
+            {/* <p className="process-note">
               Объём обратной связи и порядок общения между встречами согласуем
               до начала работы.
-            </p>
+            </p> */}
           </div>
         </section>
         <section
@@ -567,18 +524,25 @@ export default function Home() {
                   трудности остаются и над чем работаем дальше.
                 </p>
               </div>
-              <p className="parents-principle">
+              {/* <p className="parents-principle">
                 Ученик участвует в решениях о своём будущем. Семья понимает ход
                 работы.
-              </p>
+              </p> */}
             </div>
           </div>
         </section>
         <section className="author container" aria-labelledby="author-title">
           <div className="author-intro">
-            <div className="author-monogram" aria-hidden="true">
-              Г.
-            </div>
+            <Image
+              className="author-photo"
+              src="/images/author.png"
+              alt="Георгий — автор проекта МЕТА"
+              width={2752}
+              height={1536}
+              // Account for the landscape source covering a portrait frame.
+              sizes="(max-width: 767px) 185px, (max-width: 1023px) 198px, 251px"
+              quality={90}
+            />
             <div>
               <p>Кто ведёт МЕТА</p>
               <h2 id="author-title">Георгий</h2>
@@ -588,8 +552,7 @@ export default function Home() {
           <div className="author-copy">
             <QuotesIcon size={33} weight="fill" aria-hidden="true" />
             <p className="author-statement">
-              Мне важно, чтобы ЕГЭ и поступление становились осознанным шагом во
-              взрослую жизнь.
+              Мне важно, чтобы ЕГЭ и поступление становились не бегством от взрослой жизни, а первым осознанным шагом навстречу ей.
             </p>
             <p>
               Я развиваю МЕТА, чтобы помочь старшеклассникам связать интересы,
@@ -597,7 +560,7 @@ export default function Home() {
               о том, к чему ученик хочет двигаться, и постепенно переводим ответ
               в конкретные действия.
             </p>
-            <p className="author-bio">{site.biography}</p>
+            {/* <p className="author-bio">{site.biography}</p>
             <a
               className="text-link"
               href={site.telegram}
@@ -606,7 +569,7 @@ export default function Home() {
             >
               Познакомиться в Telegram
               <ArrowUpRightIcon size={18} aria-hidden="true" />
-            </a>
+            </a> */}
           </div>
         </section>
         <section
@@ -626,7 +589,7 @@ export default function Home() {
           </div>
           <div className="pricing-grid">
             <article className="price-card">
-              <span className="format-label">Разобрать конкретный вопрос</span>
+              {/* <span className="format-label">Разобрать конкретный вопрос</span> */}
               <h3>Следующий шаг</h3>
               <p className="format-description">
                 Одна консультация, чтобы разобраться в ситуации и наметить
@@ -646,52 +609,11 @@ export default function Home() {
                 Обсудить консультацию
               </ActionLink>
             </article>
-            <article className="price-card price-featured">
-              <span className="format-label">
-                Исследовать варианты будущего
-              </span>
-              <h3>Мой путь</h3>
-              <p className="format-description">
-                Программа профориентации: от исследования интересов к плану
-                практических проб.
-              </p>
-              <div className="price-options">
-                <div>
-                  <p className="price">
-                    14 900 <span>₽</span>
-                  </p>
-                  <p className="price-unit">в группе</p>
-                </div>
-                <div>
-                  <p className="price secondary-price">
-                    24 900 <span>₽</span>
-                  </p>
-                  <p className="price-unit">индивидуально</p>
-                </div>
-              </div>
-              <ul className="included">
-                <li>Группа: 4 встречи по 90 минут, 4–6 человек</li>
-                <li>Задания с обратной связью</li>
-                <li>Индивидуальная встреча на 45 минут</li>
-              </ul>
-              <details className="format-details">
-                <summary>
-                  Что входит в индивидуальный формат
-                  <PlusIcon size={16} aria-hidden="true" />
-                </summary>
-                <p>
-                  4 встречи по 60 минут, 4 письменных разбора, итоговый план
-                  проб и встреча с родителем на 30 минут.
-                </p>
-              </details>
-              <ActionLink task="direction" className="button button-primary">
-                Обсудить профориентацию
-              </ActionLink>
-            </article>
+            <PathPriceCard />
             <article className="price-card">
-              <span className="format-label">
+              {/* <span className="format-label">
                 Выбрать образовательный маршрут
-              </span>
+              </span> */}
               <h3>Маршрут</h3>
               <p className="format-description">
                 Сравнение образовательных вариантов и понятная дорожная карта
@@ -711,41 +633,7 @@ export default function Home() {
                 Обсудить маршрут
               </ActionLink>
             </article>
-            <article className="price-card">
-              <span className="format-label">Подготовиться к экзаменам</span>
-              <h3>К своей цели</h3>
-              <p className="format-description">
-                Системная работа над предметом, практика и регулярная обратная
-                связь.
-              </p>
-              <div className="price-options">
-                <div>
-                  <p className="price">
-                    12 800 <span>₽</span>
-                  </p>
-                  <p className="price-unit">в мини-группе</p>
-                </div>
-                <div>
-                  <p className="price secondary-price">
-                    25 600 <span>₽</span>
-                  </p>
-                  <p className="price-unit">индивидуально</p>
-                </div>
-              </div>
-              <ul className="included">
-                <li>Группа: 8 занятий по 90 минут, 3–5 человек</li>
-                <li>Индивидуально: 8 занятий по 60 минут</li>
-                <li>Материалы и домашние задания с проверкой</li>
-                <li>Обратная связь</li>
-              </ul>
-              <p className="subject-note">
-                За один предмет, с одного ученика. Доступные предметы уточните
-                на знакомстве.
-              </p>
-              <ActionLink task="exams" className="button button-outline">
-                Обсудить подготовку
-              </ActionLink>
-            </article>
+            <ExamPriceCard />
           </div>
           <p className="pricing-note">
             Полные условия, расписание, способы оплаты и правила переноса встреч
@@ -762,7 +650,7 @@ export default function Home() {
               <h2 id="questions-title">
                 Можно
                 <br />
-                спросить
+                 спросить
               </h2>
               <p className="faq-intro">
                 Здесь собрали вопросы, которые часто возникают перед первым
@@ -807,7 +695,7 @@ export default function Home() {
                 Расскажите, какой следующий шаг сейчас вызывает вопросы. Уточним
                 задачу и предложим подходящий формат знакомства с МЕТА.
               </p>
-              <div className="contact-direct">
+              {/* <div className="contact-direct">
                 <span>Или свяжитесь напрямую</span>
                 <a
                   href={site.telegram}
@@ -821,8 +709,8 @@ export default function Home() {
                   {site.phone}
                   <ArrowUpRightIcon size={20} aria-hidden="true" />
                 </a>
-              </div>
-              <p className="contact-note">
+              </div> */}
+              <p>
                 На знакомстве обсудим вашу ситуацию. Формат, состав и стоимость
                 платной работы согласуем до её начала.
               </p>
@@ -854,13 +742,13 @@ export default function Home() {
           </div>
           <div className="footer-bottom">
             <span>© {new Date().getFullYear()} МЕТА</span>
-            <div className="footer-contacts">
+            {/* <div className="footer-contacts">
               <a href={site.phoneHref}>{site.phone}</a>
               <a href={site.telegram} target="_blank" rel="noopener noreferrer">
                 Telegram
               </a>
-            </div>
-            <LegalLinks />
+            </div> */}
+            <div className="footer-contacts"><LegalLinks /></div>
           </div>
         </div>
       </footer>

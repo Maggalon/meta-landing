@@ -117,6 +117,72 @@ img {
 .section {
   padding-block: 100px;
 }
+.legal-document {
+  width: min(780px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 36px 0 64px;
+  overflow-wrap: anywhere;
+}
+.legal-document a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.legal-document header {
+  margin: 44px 0 28px;
+}
+.legal-document h1 {
+  font-size: clamp(30px, 5vw, 46px);
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+  font-weight: 500;
+  margin: 0;
+}
+.legal-version {
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.legal-draft {
+  padding: 20px;
+  background: var(--tint);
+  border-radius: 10px;
+  font-size: 14px;
+}
+.legal-document p + p,
+.legal-draft p {
+  margin-top: 12px;
+}
+.legal-document section {
+  margin-top: 36px;
+}
+.legal-document h2 {
+  font-size: 23px;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+}
+.legal-document ul {
+  list-style: disc;
+  padding-left: 24px;
+  margin: 16px 0;
+}
+.legal-document li + li {
+  margin-top: 8px;
+}
+.legal-document footer {
+  border-top: 1px solid var(--line);
+  padding-top: 24px;
+  margin-top: 48px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.legal-document footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  margin-bottom: 16px;
+}
 .section-heading {
   margin-bottom: 44px;
 }
@@ -515,12 +581,13 @@ img {
 .scenario-option {
   display: flex;
   gap: 13px;
-  align-items: center;
+  align-items: flex-start;
   padding: 15px 0;
 }
 .scenario-option > span {
   width: 33px;
   height: 33px;
+  flex-shrink: 0;
   display: grid;
   place-items: center;
   background: var(--tint);
@@ -561,55 +628,57 @@ img {
   margin-top: 20px;
   font-size: 10px;
 }
-.comparison-table {
-  margin-top: 29px;
+.route-roadmap {
+  list-style: none;
+  margin: 28px 0 0;
+  padding: 0;
 }
-.comparison-table table {
-  width: 100%;
-  table-layout: fixed;
-  border-collapse: collapse;
-  text-align: left;
-  font-size: 12px;
+.route-roadmap li {
+  position: relative;
+  padding: 0 0 25px 28px;
+}
+.route-roadmap li:last-child {
+  padding-bottom: 0;
+}
+.route-roadmap li::before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 0;
+  width: 9px;
+  height: 9px;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  background: var(--paper);
+}
+.route-roadmap li:first-child::before {
+  background: var(--accent);
+}
+.route-roadmap li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 17px;
+  bottom: -2px;
+  left: 4px;
+  width: 1px;
+  background: var(--line);
+}
+.route-timing {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.7;
+}
+.route-roadmap h4 {
+  margin: 4px 0 0;
+  font-size: 14px;
+  font-weight: 500;
   line-height: 1.5;
 }
-.comparison-table th,
-.comparison-table td {
-  padding: 14px 8px;
-  vertical-align: top;
-  overflow-wrap: anywhere;
-}
-.comparison-table th {
-  font-weight: 500;
-}
-.comparison-table thead {
-  background: var(--tint);
-  color: var(--accent);
-}
-.comparison-table tbody tr:nth-child(2) {
-  background: #f5f6f9;
-}
-.comparison-table tbody th {
+.route-roadmap p {
+  margin-top: 4px;
   color: var(--muted);
-}
-.route-next {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  margin-top: 29px;
-  padding-top: 25px;
-  border-top: 1px solid var(--line);
-}
-.route-next svg {
-  color: var(--accent);
-}
-.route-next strong {
-  font-size: 13px;
-  font-weight: 550;
-}
-.route-next p {
   font-size: 12px;
-  color: var(--muted);
-  margin-top: 7px;
 }
 .study-plan {
   list-style: none;
@@ -729,7 +798,8 @@ img {
   font-weight: 500;
 }
 .process {
-  background: #f0f3fa;
+  background: var(--paper);
+  border-block: 1px solid var(--line);
 }
 .process-grid {
   display: grid;
@@ -820,17 +890,14 @@ img {
   gap: 24px;
   margin-top: 14px;
 }
-.author-monogram {
+.author-photo {
   width: 120px;
   height: 140px;
-  display: grid;
-  place-items: center;
+  flex-shrink: 0;
+  object-fit: cover;
+  object-position: center;
   border-radius: var(--radius);
   background: var(--tint);
-  font-size: 68px;
-  font-weight: 450;
-  color: var(--accent);
-  letter-spacing: -0.06em;
 }
 .author-intro p {
   color: var(--muted);
@@ -879,6 +946,46 @@ img {
 .price-featured {
   background: var(--tint);
   border-color: #c7d3f2;
+}
+.format-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  min-width: 0;
+  margin: 24px 0 0;
+  padding: 4px;
+  border: 1px solid #c7d3f2;
+  border-radius: 10px;
+}
+.format-switch label {
+  position: relative;
+  min-width: 0;
+  cursor: pointer;
+}
+.price-card:not(.price-featured) .format-switch {
+  background: var(--tint);
+}
+.format-switch label > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 9px 6px;
+  border-radius: 6px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+}
+.format-switch input:checked + span {
+  color: var(--accent);
+  background: var(--paper);
+}
+.format-switch label:hover > span {
+  color: var(--accent);
+}
+.format-switch input:focus-visible + span {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 .format-label {
   font-size: 11px;
@@ -1471,11 +1578,6 @@ details[open] > summary svg {
   .scenario-option strong {
     font-size: 12px;
   }
-  .comparison-table th,
-  .comparison-table td {
-    padding: 11px 5px;
-    font-size: 10px;
-  }
   .process-grid {
     grid-template-columns: 1fr 1fr;
     gap: 38px;
@@ -1509,7 +1611,7 @@ details[open] > summary svg {
     align-items: flex-start;
     flex-direction: column;
   }
-  .author-monogram {
+  .author-photo {
     width: 100px;
     height: 110px;
   }
@@ -1706,11 +1808,6 @@ details[open] > summary svg {
   .scenario-option strong {
     font-size: 13px;
   }
-  .comparison-table th,
-  .comparison-table td {
-    padding: 13px 7px;
-    font-size: 11px;
-  }
   .example-layout {
     grid-template-columns: 1fr;
     gap: 32px;
@@ -1788,10 +1885,9 @@ details[open] > summary svg {
     gap: 23px;
     margin: 0;
   }
-  .author-monogram {
+  .author-photo {
     width: 87px;
     height: 103px;
-    font-size: 54px;
   }
   .author-intro h2 {
     font-size: 28px;
@@ -1954,11 +2050,6 @@ details[open] > summary svg {
   }
   .contact h2 {
     font-size: 38px;
-  }
-  .comparison-table th,
-  .comparison-table td {
-    font-size: 10px;
-    padding: 11px 5px;
   }
   .scenario-option strong {
     font-size: 12px;
