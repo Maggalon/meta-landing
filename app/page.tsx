@@ -170,7 +170,7 @@ export default function Home() {
                   <span>Как работаем</span>
                   <p>
                     Короткие инструкции, самостоятельные задания и
-                    индивидуальные или групповые встречи.
+                    групповые встречи.
                   </p>
                 </div>
                 <div className="stage-outcome">
@@ -579,7 +579,7 @@ export default function Home() {
         >
           <div className="section-heading">
             <h2 id="formats-title">
-              Выберите работу
+              Выберите услугу
               <br className="desktop-break" /> под свою задачу
             </h2>
             <p>
@@ -595,8 +595,8 @@ export default function Home() {
                 Одна консультация, чтобы разобраться в ситуации и наметить
                 ближайшие действия.
               </p>
-              <p className="price">
-                3 900 <span>₽</span>
+              <p className="price price-free">
+                Бесплатно <s aria-label="Прежняя цена: 3 900 рублей">3 900 ₽</s>
               </p>
               <p className="price-unit">за консультацию</p>
               <ul className="included">
@@ -620,14 +620,17 @@ export default function Home() {
                 поступления.
               </p>
               <p className="price">
-                16 900 <span>₽</span>
+                9 900 <span>₽</span>
               </p>
               <p className="price-unit">за программу</p>
               <ul className="included">
                 <li>Две встречи по 60 минут</li>
-                <li>До 5 программ в одной стране в рамках запроса</li>
-                <li>Требования и дорожная карта</li>
-                <li>Одна корректировка плана</li>
+                <li>
+                  До 5 программ обучения, включая варианты с переездом внутри
+                  страны и за границу
+                </li>
+                <li>Таблица вариантов со всей нужной информацией</li>
+                <li>Поэтапная дорожная карта по выбранному варианту</li>
               </ul>
               <ActionLink task="route" className="button button-outline">
                 Обсудить маршрут
@@ -648,9 +651,9 @@ export default function Home() {
           <div className="container faq-layout">
             <div>
               <h2 id="questions-title">
-                Можно
+                Можно{" "}
                 <br />
-                 спросить
+                спросить
               </h2>
               <p className="faq-intro">
                 Здесь собрали вопросы, которые часто возникают перед первым

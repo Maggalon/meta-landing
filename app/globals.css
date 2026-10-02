@@ -1015,6 +1015,18 @@ img {
   font-size: 26px;
   font-weight: 400;
 }
+.price-free {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 14px;
+}
+.price-free s {
+  color: var(--muted);
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: normal;
+}
 .price-unit {
   color: var(--muted);
   font-size: 11px;
